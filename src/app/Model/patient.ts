@@ -1,9 +1,9 @@
-export class Patient{
-    firstName:  string;
-    lastName:   string ;
-    dni:        string;
-    addreess:   string;
-    phone:      string;
-    email:      string ;
-
+export class Patient {
+  idPatient: number;
+  firstName: string;
+  lastName: string;
+  dni: string;
+  address: string;
+  phone: string;
+  email: string;
 }
