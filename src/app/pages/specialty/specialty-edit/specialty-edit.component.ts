@@ -80,6 +80,8 @@ export class SpecialtyEditComponent implements OnInit{
     }
     this.router.navigate(['/pages/specialty']);
   }
+
+  
   get f(){
     return this.form.controls;
   }
