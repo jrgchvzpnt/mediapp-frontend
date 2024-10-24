@@ -1,12 +1,82 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MaterialModule } from '../../../material/material.module';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { SpecialtyService } from '../../../services/specialty.service';
+import { Specialty } from '../../../Model/specialty';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-specialty-edit',
   standalone: true,
-  imports: [],
+  imports: [MaterialModule,ReactiveFormsModule, RouterLink],
   templateUrl: './specialty-edit.component.html',
   styleUrl: './specialty-edit.component.css'
 })
-export class SpecialtyEditComponent {
+export class SpecialtyEditComponent implements OnInit{
+  form: FormGroup;
+  id: number;
+  isEdit: boolean;
 
+  constructor(
+    private route:ActivatedRoute, 
+    private router: Router,
+    private specialtyService: SpecialtyService
+
+  ){}
+
+  ngOnInit(): void {
+    this.form = new FormGroup({
+      idSpecialty: new FormControl(0),
+      name: new FormControl(''),
+      description: new FormControl(''),
+    });
+
+    this.route.params.subscribe((data) => {
+      this.id = data['id'];
+      this.isEdit = data['id'] != null;
+      this.initForm();
+    });
+ }
+ 
+  initForm(){
+    if (this.isEdit) {
+      this.specialtyService.findById(this.id).subscribe((data) => {
+        this.form = new FormGroup({
+          idSpecialty: new FormControl(data.idSpecialty),
+          name: new FormControl(data.nameSpecialty),
+          description: new FormControl(data.descriptionSpecialty),
+        });
+      });
+    }
+  }
+  operate() {
+
+    const specialty: Specialty = new Specialty();
+    specialty.idSpecialty = this.form.value['idSpecialty'];
+    specialty.nameSpecialty = this.form.value['name'];
+    specialty.descriptionSpecialty = this.form.value['description'];
+   
+
+    if (this.isEdit) {
+      //UPDATE
+      //PRACTICA COMUN - NO IDEAL
+      this.specialtyService.update(this.id, specialty).subscribe(() => {
+        this.specialtyService.findAll().subscribe((data) => {
+         this.specialtyService.setSpecialtyChange(data);
+          this.specialtyService.setMessageChange('UPDATED!');
+        });
+      });
+    } else {
+      //INSERT
+      this.specialtyService
+        .save(specialty)
+        .pipe(switchMap(() => this.specialtyService.findAll()))
+        .subscribe((data) => {
+          this.specialtyService.setSpecialtyChange(data);
+          this.specialtyService.setMessageChange('CREATED!');
+        });
+    }
+    this.router.navigate(['/pages/specialty']);
+  }
 }
