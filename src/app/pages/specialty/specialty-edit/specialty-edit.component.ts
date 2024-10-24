@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../../material/material.module';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SpecialtyService } from '../../../services/specialty.service';
 import { Specialty } from '../../../Model/specialty';
@@ -28,8 +28,8 @@ export class SpecialtyEditComponent implements OnInit{
   ngOnInit(): void {
     this.form = new FormGroup({
       idSpecialty: new FormControl(0),
-      name: new FormControl(''),
-      description: new FormControl(''),
+      name: new FormControl('', [Validators.required, Validators.minLength(3)] ),
+      description: new FormControl('', [Validators.required, Validators.minLength(3)] ),
     });
 
     this.route.params.subscribe((data) => {
@@ -44,13 +44,14 @@ export class SpecialtyEditComponent implements OnInit{
       this.specialtyService.findById(this.id).subscribe((data) => {
         this.form = new FormGroup({
           idSpecialty: new FormControl(data.idSpecialty),
-          name: new FormControl(data.nameSpecialty),
-          description: new FormControl(data.descriptionSpecialty),
+          name: new FormControl(data.nameSpecialty, [Validators.required, Validators.minLength(3)]),
+          description: new FormControl(data.descriptionSpecialty, [Validators.required, Validators.minLength(3)]),
         });
       });
     }
   }
   operate() {
+    if (this.form.invalid) { return;}
 
     const specialty: Specialty = new Specialty();
     specialty.idSpecialty = this.form.value['idSpecialty'];
@@ -78,5 +79,8 @@ export class SpecialtyEditComponent implements OnInit{
         });
     }
     this.router.navigate(['/pages/specialty']);
+  }
+  get f(){
+    return this.form.controls;
   }
 }
