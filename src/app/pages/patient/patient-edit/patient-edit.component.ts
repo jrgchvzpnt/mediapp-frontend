@@ -50,9 +50,9 @@ export class PatientEditComponent implements OnInit {
           idPatient: new FormControl(data.idPatient),
           firstName: new FormControl(data.firstName),
           lastName: new FormControl(data.lastName),
-          dni: new FormControl(data.dni),
+          dni: new FormControl(data.dni, [Validators.required, Validators.minLength(3), Validators.maxLength(8)]),
           address: new FormControl(data.address),
-          phone: new FormControl(data.phone, [Validators.required, Validators.minLength(3)]),
+          phone: new FormControl(data.phone, [Validators.required, Validators.minLength(3), Validators.maxLength(8)]),
           email: new FormControl(data.email, [Validators.required, Validators.email]),
         });
       });

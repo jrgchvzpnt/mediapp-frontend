@@ -5,9 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { Subject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+
 export class SpecialtyService extends GenericService<Specialty>  {
 
   private specialtyChange: Subject<Specialty[]> = new Subject<Specialty[]>();

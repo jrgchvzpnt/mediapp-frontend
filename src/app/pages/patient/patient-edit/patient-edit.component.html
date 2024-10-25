@@ -25,10 +25,10 @@
         @if(f['dni'].errors?.['required'] && f['dni'].touched){
             <small class="invalid">The DNI Is required</small>
         }
-        @if(f['dni'].errors?.['minlength'] && f['dni'].invalid){
+        @if(f['dni'].errors?.['minlength'] && f['dni'].touched){
             <small class="invalid">The minlength Is 3</small>
         }
-        @if(f['dni'].errors?.['maxlength'] && f['dni'].invalid){
+        @if(f['dni'].errors?.['maxlength'] && f['dni'].touched){
             <small class="invalid">The maxlength Is 8</small>
         }
     </mat-form-field>
@@ -45,10 +45,10 @@
         @if(f['phone'].errors?.['required'] && f['phone'].touched){
             <small class="invalid">The Phone Is required</small>
         }
-        @if(f['phone'].errors?.['minLength'] && f['phone'].invalid){
+        @if(f['phone'].errors?.['minlength'] && f['phone'].touched){
             <small class="invalid">The minlength Is 3</small>
         }
-        @if(f['phone'].errors?.['maxLength'] && f['phone'].invalid){
+        @if(f['phone'].errors?.['maxlength'] && f['phone'].touched){
             <small class="invalid">The maxlength Is 9</small>
         }
     </mat-form-field>
