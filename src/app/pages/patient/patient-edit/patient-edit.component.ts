@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../../material/material.module';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { Patient } from '../../../Model/patient';
@@ -52,14 +52,16 @@ export class PatientEditComponent implements OnInit {
           lastName: new FormControl(data.lastName),
           dni: new FormControl(data.dni),
           address: new FormControl(data.address),
-          phone: new FormControl(data.phone),
-          email: new FormControl(data.email),
+          phone: new FormControl(data.phone, [Validators.required, Validators.minLength(3)]),
+          email: new FormControl(data.email, [Validators.required, Validators.email]),
         });
       });
     }
   }
 
   operate() {
+
+    if (this.form.invalid){return;}
     const patient: Patient = new Patient();
     patient.idPatient = this.form.value['idPatient'];
     patient.firstName = this.form.value['firstName'];
@@ -90,5 +92,9 @@ export class PatientEditComponent implements OnInit {
     }
 
     this.router.navigate(['/pages/patient']);
+  }
+
+  get f(){
+    return this.form.controls;
   }
 }

@@ -5,7 +5,7 @@ import { Patient } from '../../Model/patient';
 import { NgFor } from '@angular/common';
 import { MaterialModule } from '../../material/material.module';
 import { MatTableDataSource } from '@angular/material/table';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { switchMap } from 'rxjs';
@@ -29,20 +29,15 @@ export class PatientComponent implements OnInit {
     { def: 'dni', label: 'dni', hide: false },
     { def: 'actions', label: 'actions', hide: false },
   ];
-  /*displayedColumns: string[] = [
-    'idPatient',
-    'firstName',
-    'lastName',
-    'dni',
-    'actions',
-  ];*/
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private patientService: PatientService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {}
   // Este metodo se ejecuta despues del constructor y sirve para carga la pagina html
   ngOnInit(): void {
@@ -86,6 +81,9 @@ export class PatientComponent implements OnInit {
   applyFilter(e: any) {
     this.dataSource.filter = e.target.value.trim();
     //this.dataSource.filterPredicate = () => { };
+  }
+  checkchildren(){
+    return this.route.children.length > 0;
   }
 }
 
