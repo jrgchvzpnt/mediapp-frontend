@@ -48,11 +48,11 @@ export class PatientEditComponent implements OnInit {
       this.patientService.findById(this.id).subscribe((data) => {
         this.form = new FormGroup({
           idPatient: new FormControl(data.idPatient),
-          firstName: new FormControl(data.firstName, [Validators.required, Validators.minLength(3)]),
-          lastName: new FormControl(data.lastName, [Validators.required, Validators.minLength(3)]),
-          dni: new FormControl(data.dni, [Validators.required, Validators.minLength(3), Validators.maxLength(8)]),
-          address: new FormControl(data.address , [Validators.required, Validators.minLength(3)]),
-          phone: new FormControl(data.phone, [Validators.required, Validators.minLength(3), Validators.maxLength(9)]),
+          firstName: new FormControl(data.firstName),
+          lastName: new FormControl(data.lastName),
+          dni: new FormControl(data.dni),
+          address: new FormControl(data.address),
+          phone: new FormControl(data.phone, [Validators.required, Validators.minLength(3)]),
           email: new FormControl(data.email, [Validators.required, Validators.email]),
         });
       });
